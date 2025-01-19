@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const Home = () => {
+const Poem = () => {
   return (
     <View>
-      <Text className="text-3xl bg-red-400">Home</Text>
+      <Text>Poem</Text>
     </View>
   );
 };
 
-export default Home;
+export default Poem;

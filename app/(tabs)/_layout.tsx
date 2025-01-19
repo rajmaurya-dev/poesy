@@ -1,43 +1,106 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Tabs } from "expo-router";
+import { useState } from "react";
+import { Image, Platform, Text, View } from "react-native";
+// import { useTheme } from '@/hooks/useTheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const tabBarStyle = Platform.select({
+    ios: {
+      backgroundColor: "#FFF9FB",
+      borderTopWidth: 0,
+      paddingBottom: 16,
+      height: 70,
+      paddingTop: 16,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: -2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+    },
+    android: {
+      backgroundColor: "#FFF9FB",
+      borderTopWidth: 0,
+      paddingBottom: 16,
+      height: 70,
+      paddingTop: 16,
+      elevation: 8,
+    },
+  });
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarShowLabel: false,
+        tabBarStyle,
+      }}
+      screenListeners={{
+        tabPress: (e) => {
+          const route = e.target?.split("-")[0];
+          switch (route) {
+            case "index":
+              setActiveIndex(0);
+              break;
+            case "bookmark":
+              setActiveIndex(1);
+              break;
+            case "search":
+              setActiveIndex(2);
+              break;
+          }
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name="home"
+              color={""}
+              focused={focused}
+              index={0}
+              activeIndex={activeIndex}
+            />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="bookmark"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Bookmarks",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name="bookmark"
+              color={""}
+              focused={focused}
+              index={1}
+              activeIndex={activeIndex}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name="search"
+              color={""}
+              focused={focused}
+              index={2}
+              activeIndex={activeIndex}
+            />
+          ),
         }}
       />
     </Tabs>
