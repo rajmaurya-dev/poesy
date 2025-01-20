@@ -4,6 +4,7 @@ import { usePoems } from "@/hooks/usePoems";
 import { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useBookmarks } from "@/hooks/useBookmark";
+import PoetryDisplay from "@/components/PoetryDisplay";
 
 export default function Poem() {
   const { id } = useLocalSearchParams();
@@ -63,6 +64,21 @@ export default function Poem() {
     }
   };
 
+  const myPoem = {
+    title: "The Road Not Taken",
+    author: "Robert Frost",
+    lines: [
+      "Two roads diverged in a yellow wood,",
+      "And sorry I could not travel both",
+      "And be one traveler, long I stood",
+      "",
+      "And looked down one as far as I could",
+      "To where it bent in the undergrowth;",
+    ],
+    linecount: "26",
+  };
+
+  // console.log(poem, "66");
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
@@ -77,21 +93,9 @@ export default function Poem() {
           />
         </Pressable>
       </View>
-
-      <ScrollView className="flex-1 p-6">
-        <Text className="text-2xl font-semibold text-gray-900 mb-2">
-          {poem.title}
-        </Text>
-        <Text className="text-gray-600 mb-6">{poem.author}</Text>
-        {poem.lines.map((line, index) => (
-          <Text
-            key={index}
-            className="text-gray-800 text-lg leading-relaxed mb-2"
-          >
-            {line || "\u200B"} {/* Use zero-width space for empty lines */}
-          </Text>
-        ))}
-      </ScrollView>
+      <PoetryDisplay poem={poem} />
     </SafeAreaView>
   );
 }
+
+
