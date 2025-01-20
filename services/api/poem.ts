@@ -1,8 +1,10 @@
 import { apiClient } from "./client";
 import { Poem } from "@/types/poem";
-
+type AuthorsData = {
+  authors: string[];
+};
 export const poemsAPI = {
-  async getAuthors(): Promise<string[]> {
+  async getAuthors(): Promise<AuthorsData> {
     return await apiClient.fetchAPI("/author");
   },
 

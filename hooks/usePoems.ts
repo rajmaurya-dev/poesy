@@ -13,7 +13,7 @@ export function usePoems() {
       setLoading(true);
       setError(null);
       const data = await poemsAPI.getAuthors();
-      setAuthors(data);
+      setAuthors(data.authors);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Failed to fetch authors")

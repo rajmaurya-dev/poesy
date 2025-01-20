@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { PoemList } from "@/components/home/PoemList";
+import { useBookmarks } from "@/hooks/useBookmark";
+import { SafeAreaView } from "react-native";
 
 const Bookmark = () => {
+  const { bookmarks, loading, error, removeBookmark } = useBookmarks();
+
+  // if (loading) return <LoadingSpinner />;
+  // if (error) return <ErrorMessage message={error.message} />;
+  console.log(bookmarks.length, "bookmarks");
   return (
-    <View>
-      <Text>Bookmark</Text>
-    </View>
+    <SafeAreaView>
+      <PoemList
+        poems={bookmarks}
+        // onRemove={(title, author) => removeBookmark(title, author)}
+      />
+    </SafeAreaView>
   );
 };
 
 export default Bookmark;
-
-const styles = StyleSheet.create({});

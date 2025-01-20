@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { usePoems } from "@/hooks/usePoems";
 import { PoemList } from "@/components/home/PoemList";
@@ -18,7 +18,7 @@ const Home = () => {
   }, []);
 
   return (
-    <View>
+    <SafeAreaView>
       <View className="px-8 py-2">
         <Text className="text-sm font-medium">Poet of the Day</Text>
       </View>
@@ -29,7 +29,7 @@ const Home = () => {
         onRefresh={handleRefresh}
         refreshing={refreshing}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

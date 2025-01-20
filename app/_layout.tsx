@@ -10,7 +10,15 @@ export default function RootLayout() {
   });
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        animation: "fade",
+        contentStyle: {
+          backgroundColor: "#f9f9f9",
+        },
+      }}
+    >
       <Stack.Screen options={{ headerShown: false }} name="(tabs)" />
     </Stack>
   );
