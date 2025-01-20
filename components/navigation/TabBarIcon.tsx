@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 type TabBarIconProps = {
-  name: "home" | "bookmark" | "search";
+  name: "home" | "bookmark" | "search" | "star";
   color: string;
   focused?: boolean;
   index: number;

@@ -1,16 +1,18 @@
 import { View, Text, ScrollView, Pressable, SafeAreaView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { usePoems } from "@/hooks/usePoems";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useBookmarks } from "@/hooks/useBookmark";
 import PoetryDisplay from "@/components/PoetryDisplay";
+import PoetrySelector from "@/components/PoetrySelector";
 
 export default function Poem() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { poems, loading, error, searchPoems } = usePoems();
   const { isBookmarked, addBookmark, removeBookmark } = useBookmarks();
+  const [isSelectingLines, setIsSelectingLines] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -64,36 +66,42 @@ export default function Poem() {
     }
   };
 
-  const myPoem = {
-    title: "The Road Not Taken",
-    author: "Robert Frost",
-    lines: [
-      "Two roads diverged in a yellow wood,",
-      "And sorry I could not travel both",
-      "And be one traveler, long I stood",
-      "",
-      "And looked down one as far as I could",
-      "To where it bent in the undergrowth;",
-    ],
-    linecount: "26",
-  };
-
-  // console.log(poem, "66");
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
         <Pressable onPress={() => router.back()} hitSlop={8} className="p-2">
           <Feather name="arrow-left" size={24} color="#666" />
         </Pressable>
-        <Pressable onPress={handleBookmarkPress} hitSlop={8} className="p-2">
-          <Feather
-            name={isPoemBookmarked ? "check-circle" : "bookmark"}
-            size={24}
-            color={isPoemBookmarked ? "#FF4196" : "#666"}
-          />
-        </Pressable>
+        <View className="flex-row gap-4">
+          <Pressable
+            onPress={() => setIsSelectingLines(!isSelectingLines)}
+            hitSlop={8}
+            className="p-2"
+          >
+            <Feather
+              name={isSelectingLines ? "check" : "edit"}
+              size={24}
+              color="#666"
+            />
+          </Pressable>
+          <Pressable onPress={handleBookmarkPress} hitSlop={8} className="p-2">
+            <Feather
+              name={isPoemBookmarked ? "check-circle" : "bookmark"}
+              size={24}
+              color={isPoemBookmarked ? "#FF4196" : "#666"}
+            />
+          </Pressable>
+        </View>
       </View>
-      <PoetryDisplay poem={poem} />
+
+      {isSelectingLines ? (
+        <PoetrySelector
+          poem={poem}
+          onClose={() => setIsSelectingLines(false)}
+        />
+      ) : (
+        <PoetryDisplay poem={poem} />
+      )}
     </SafeAreaView>
   );
 }

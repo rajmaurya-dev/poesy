@@ -51,6 +51,9 @@ export default function TabLayout() {
             case "search":
               setActiveIndex(2);
               break;
+            case "quotes":
+              setActiveIndex(3);
+              break;
           }
         },
       }}
@@ -98,6 +101,22 @@ export default function TabLayout() {
               color={""}
               focused={focused}
               index={2}
+              activeIndex={activeIndex}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="quotes"
+        options={{
+          title: "Quotes",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name="star"
+              color={""}
+              focused={focused}
+              index={3}
               activeIndex={activeIndex}
             />
           ),

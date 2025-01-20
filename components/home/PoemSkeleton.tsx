@@ -28,21 +28,21 @@ export function PoemSkeleton() {
   }));
 
   return (
-    <View className="bg-white rounded-xl p-4 mb-4 shadow-sm">
+    <View className="bg-[#FFF9FB] rounded-xl p-4 mb-4 ">
       <Animated.View
-        className="h-7 bg-gray-200 rounded-md w-3/4 mb-2"
+        className="h-7 bg-white rounded-md w-3/4 mb-2"
         style={animatedStyle}
       />
       <Animated.View
-        className="h-5 bg-gray-200 rounded-md w-1/2 mb-4"
+        className="h-5 bg-white rounded-md w-1/2 mb-4"
         style={animatedStyle}
       />
       <Animated.View
-        className="h-4 bg-gray-200 rounded-md w-full mb-2"
+        className="h-4 bg-white rounded-md w-full mb-2"
         style={animatedStyle}
       />
       <Animated.View
-        className="h-4 bg-gray-200 rounded-md w-5/6"
+        className="h-4 bg-white rounded-md w-5/6"
         style={animatedStyle}
       />
     </View>

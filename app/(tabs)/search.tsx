@@ -95,7 +95,7 @@ const Search = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1 bg-gray-50"
       >
-        <View className="p-4 gap-4 border-b border-gray-100">
+        <View className="p-4 gap-4 border-b border-gray-100 bg-white">
           <SearchBar
             value={searchQuery}
             onChangeText={handleSearch}
