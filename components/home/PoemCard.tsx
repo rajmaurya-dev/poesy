@@ -1,11 +1,11 @@
 import { View, Text, Pressable } from "react-native";
 import { Link, useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
-import { Poem } from "@/types/poem";
+import { FullPoem, Poem } from "@/types/poem";
 import { useBookmarks } from "@/hooks/useBookmark";
 
 type PoemCardProps = {
-  poem: Poem;
+  poem: FullPoem;
 };
 
 export function PoemCard({ poem }: PoemCardProps) {

@@ -1,10 +1,10 @@
 import { View, FlatList, Text, RefreshControl } from "react-native";
-import { Poem } from "@/types/poem";
+import { FullPoem, Poem } from "@/types/poem";
 import { PoemCard } from "./PoemCard";
 import { PoemSkeleton } from "./PoemSkeleton";
 
 type PoemListProps = {
-  poems: Poem[];
+  poems: FullPoem[];
   loading?: boolean;
   error?: Error | null;
   onRefresh?: () => void;

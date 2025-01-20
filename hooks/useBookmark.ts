@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Poem } from "@/types/poem";
+import { FullPoem, Poem } from "@/types/poem";
 
 const BOOKMARK_KEY = "poesy_bookmarks";
 
 export function useBookmarks() {
-  const [bookmarks, setBookmarks] = useState<Poem[]>([]);
+  const [bookmarks, setBookmarks] = useState<FullPoem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -29,7 +29,7 @@ export function useBookmarks() {
   }, [loadBookmarks]);
 
   const addBookmark = useCallback(
-    async (poem: Poem) => {
+    async (poem: FullPoem) => {
       try {
         setError(null);
         const updatedBookmarks = [...bookmarks, poem];

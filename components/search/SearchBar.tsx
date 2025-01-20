@@ -2,13 +2,21 @@ import { TextInput, View, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 
-type SearchBarProps = {
+
+interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
   onSubmit: () => void;
-};
+  placeholder?: string;
+}
+  
 
-export function SearchBar({ value, onChangeText, onSubmit }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChangeText,
+  onSubmit,
+  placeholder,
+}: SearchBarProps) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -22,7 +30,7 @@ export function SearchBar({ value, onChangeText, onSubmit }: SearchBarProps) {
         value={value}
         onChangeText={onChangeText}
         onSubmitEditing={onSubmit}
-        placeholder="Search poems..."
+        placeholder={placeholder}
         returnKeyType="search"
         className="flex-1 py-4 px-3 text-base text-gray-900"
         placeholderTextColor="#999"

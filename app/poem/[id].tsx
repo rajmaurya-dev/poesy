@@ -21,29 +21,35 @@ export default function Poem() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white p-6">
-        <View className="h-8 bg-gray-200 rounded-md w-3/4 mb-4" />
-        <View className="h-6 bg-gray-200 rounded-md w-1/2 mb-6" />
-        <View className="h-4 bg-gray-200 rounded-md w-full mb-3" />
-        <View className="h-4 bg-gray-200 rounded-md w-5/6 mb-3" />
-        <View className="h-4 bg-gray-200 rounded-md w-4/5 mb-3" />
-      </View>
+      <SafeAreaView>
+        <View className="flex-1 bg-white p-6">
+          <View className="h-8 bg-gray-200 rounded-md w-3/4 mb-4" />
+          <View className="h-6 bg-gray-200 rounded-md w-1/2 mb-6" />
+          <View className="h-4 bg-gray-200 rounded-md w-full mb-3" />
+          <View className="h-4 bg-gray-200 rounded-md w-5/6 mb-3" />
+          <View className="h-4 bg-gray-200 rounded-md w-4/5 mb-3" />
+        </View>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 justify-center items-center p-4">
-        <Text className="text-red-500 text-center">{error.message}</Text>
-      </View>
+      <SafeAreaView>
+        <View className="flex-1 justify-center items-center p-4">
+          <Text className="text-red-500 text-center">{error.message}</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
   if (!poem) {
     return (
-      <View className="flex-1 justify-center items-center p-4">
-        <Text className="text-gray-600 text-center">Poem not found</Text>
-      </View>
+      <SafeAreaView>
+        <View className="flex-1 justify-center items-center p-4">
+          <Text className="text-gray-600 text-center">Poem not found</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 

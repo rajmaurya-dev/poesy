@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { View, Text, Pressable, TextInput, FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { FlashList } from "@shopify/flash-list";
 import Animated, {
   FadeIn,
   FadeOut,
@@ -39,16 +40,11 @@ export function AuthorSelect({
   };
 
   const filteredAuthors = useMemo(() => {
-    if (searchQuery.trim().length === 0) {
-      return authors;
-    }
-
+    if (!searchQuery.trim()) return authors;
     return authors.filter((author) =>
       author.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [authors, searchQuery]);
-
-  console.log("filteredAuthors", authors);
 
   const renderAuthorItem = useCallback(
     ({ item }: { item: string }) => (
@@ -89,10 +85,9 @@ export function AuthorSelect({
         <Animated.View
           entering={SlideInDown.duration(200)}
           exiting={SlideOutDown.duration(200)}
-          className="absolute top-16 left-0 right-0 bg-white rounded-xl shadow-lg z-50 border border-gray-100"
-          style={{ maxHeight: 400 }}
+          className="absolute top-16 left-0 right-0 bg-gray-100 rounded-xl shadow-lg z-50 border border-gray-100"
+          style={{ height: 400 }}
         >
-          {/* Search input */}
           <View className="p-3 border-b border-gray-100">
             <View className="flex-row items-center bg-gray-50 rounded-lg px-3">
               <Feather name="search" size={16} color="#666" />
@@ -123,20 +118,13 @@ export function AuthorSelect({
             <Text className="text-gray-900">All Authors</Text>
           </Pressable>
 
-          <FlatList
+          <FlashList
             data={filteredAuthors}
             renderItem={renderAuthorItem}
             keyExtractor={(item) => item}
             className="max-h-80"
             keyboardShouldPersistTaps="handled"
-            initialNumToRender={20}
-            maxToRenderPerBatch={20}
-            windowSize={10}
-            getItemLayout={(data, index) => ({
-              length: 48,
-              offset: 48 * index,
-              index,
-            })}
+            estimatedItemSize={48}
             ListEmptyComponent={() => (
               <View className="py-4">
                 <Text className="text-gray-500 text-center">

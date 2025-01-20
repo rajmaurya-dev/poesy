@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, ActivityIndicator, FlatList } from "react-native";
-import { Poem } from "@/types/poem";
+import { FullPoem, Poem } from "@/types/poem";
 
 interface PoemListProps {
-  poems: Poem[];
+  poems: FullPoem[];
   loading: boolean;
   error: string | null;
 }

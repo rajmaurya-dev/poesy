@@ -1,11 +1,11 @@
 import { useState, useCallback } from "react";
-import { Poem } from "@/types/poem";
+import { FullPoem, Poem } from "@/types/poem";
 import { poemsAPI } from "@/services/api/poem";
 
 export function usePoems() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [poems, setPoems] = useState<Poem[]>([]);
+  const [poems, setPoems] = useState<FullPoem[]>([]);
   const [authors, setAuthors] = useState<string[]>([]);
 
   const fetchAuthors = useCallback(async () => {
