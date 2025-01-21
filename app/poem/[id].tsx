@@ -66,6 +66,8 @@ export default function Poem() {
     }
   };
 
+  console.log(poem.linecount, "poem.linecount");
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">

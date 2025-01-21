@@ -117,3 +117,4 @@ const PoetryDisplay: React.FC<PoetryDisplayProps> = ({
 };
 
 export default PoetryDisplay;
+

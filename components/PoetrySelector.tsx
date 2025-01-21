@@ -6,6 +6,9 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Animated, {
@@ -124,43 +127,57 @@ const PoetrySelector: React.FC<PoetrySelectorProps> = ({ poem, onClose }) => {
   };
 
   const renderQuoteCreator = () => (
-    <Animated.View
-      className="bg-white rounded-t-3xl shadow-lg p-6"
-      entering={SlideInRight}
-      exiting={SlideOutLeft}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      className="flex-1"
     >
-      <Text className="text-xl font-semibold mb-4">Create New Quote</Text>
-      <TextInput
-        className="border border-gray-200 rounded-lg p-3 mb-4"
-        placeholder="Enter quote title..."
-        value={quoteTitle}
-        onChangeText={setQuoteTitle}
-      />
-      <View className="mb-4">
-        <Text className="text-gray-600 mb-2">Selected Lines:</Text>
-        {Array.from(selectedLines)
-          .sort((a, b) => a - b)
-          .map((index) => (
-            <Text key={index} className="text-gray-800 mb-1">
-              • {poem.lines[index]}
-            </Text>
-          ))}
-      </View>
-      <View className="flex-row gap-4">
-        <TouchableOpacity
-          className="flex-1 bg-gray-100 rounded-lg p-3 items-center"
-          onPress={() => setIsCreatingQuote(false)}
-        >
-          <Text className="text-gray-600">Cancel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="flex-1 bg-pink-500 rounded-lg p-3 items-center"
-          onPress={saveQuote}
-        >
-          <Text className="text-white">Save Quote</Text>
-        </TouchableOpacity>
-      </View>
-    </Animated.View>
+      <Animated.View
+        className="bg-white rounded-t-3xl shadow-lg"
+        entering={SlideInRight}
+        exiting={SlideOutLeft}
+      >
+        <View className="p-6">
+          <Text className="text-xl font-semibold mb-4">Create New Quote</Text>
+          <TextInput
+            className="border border-gray-200 rounded-lg p-3 mb-4"
+            placeholder="Enter quote title..."
+            value={quoteTitle}
+            onChangeText={setQuoteTitle}
+            returnKeyType="done"
+            onSubmitEditing={Keyboard.dismiss}
+          />
+
+          <ScrollView className="max-h-32 mb-4">
+            <Text className="text-gray-600 mb-2">Selected Lines:</Text>
+            {Array.from(selectedLines)
+              .sort((a, b) => a - b)
+              .map((index) => (
+                <Text key={index} className="text-gray-800 mb-1">
+                  • {poem.lines[index]}
+                </Text>
+              ))}
+          </ScrollView>
+          <View className="flex-row gap-4">
+            <TouchableOpacity
+              className="flex-1 bg-gray-100 rounded-lg p-3 items-center"
+              onPress={() => {
+                setIsCreatingQuote(false);
+                Keyboard.dismiss();
+              }}
+            >
+              <Text className="text-gray-600">Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-1 bg-pink-500 rounded-lg p-3 items-center"
+              onPress={saveQuote}
+            >
+              <Text className="text-white">Save Quote</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Animated.View>
+    </KeyboardAvoidingView>
   );
 
   return (
