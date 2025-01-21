@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { FlashList } from "@shopify/flash-list";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -38,6 +39,26 @@ interface PoetryDisplayProps {
   };
 }
 
+interface LineItem {
+  id: string;
+  content: string;
+  index: number;
+}
+
+const LineRenderer = React.memo(({ item }: { item: LineItem }) => {
+  if (!item.content.trim()) {
+    return <View className="h-5" />;
+  }
+
+  return (
+    <AnimatedView entering={FadeIn.duration(300)} className="w-full">
+      <Text className="text-lg text-gray-800 mb-2 px-6" selectable={true}>
+        {item.content || "\u200B"}
+      </Text>
+    </AnimatedView>
+  );
+});
+
 const PoetryDisplay: React.FC<PoetryDisplayProps> = ({
   poem,
   customStyles,
@@ -57,27 +78,71 @@ const PoetryDisplay: React.FC<PoetryDisplayProps> = ({
     transform: [{ scale: scale.value }],
   }));
 
-  const renderLine = (line: string, index: number) => {
-    if (!line.trim()) {
-      return <View key={`empty-${index}`} className="h-5" />;
-    }
+  const data = React.useMemo(
+    () =>
+      poem.lines.map((line, index) => ({
+        id: `${index}`,
+        content: line,
+        index,
+      })),
+    [poem.lines]
+  );
 
-    const indentation = line.match(/^\s*/)?.[0].length || 0;
-    const trimmedLine = line.trim();
+  const renderItem = useCallback(
+    ({ item }: { item: LineItem }) => <LineRenderer item={item} />,
+    []
+  );
 
-    return (
-      <AnimatedView
-        key={`line-${index}`}
-        // entering={FadeIn.delay(index * 50).springify()}
-        className="w-full"
-        // style={{ marginLeft: indentation * 8 }}
-      >
-        <Text className="text-lg text-gray-800 mb-2" selectable={true}>
-          {trimmedLine || "\u200B"}
-        </Text>
-      </AnimatedView>
-    );
-  };
+  const keyExtractor = useCallback((item: LineItem) => item.id, []);
+
+  const ListHeaderComponent = useCallback(
+    () => (
+      <View className="px-6">
+        {poem.title && (
+          <AnimatedText
+            className="text-2xl font-bold text-gray-900 mb-3 text-center"
+            entering={FadeIn.duration(500)}
+          >
+            {poem.title}
+          </AnimatedText>
+        )}
+
+        {poem.author && (
+          <AnimatedText
+            className="text-lg text-gray-600 mb-6 text-center italic"
+            entering={FadeIn.duration(500).delay(100)}
+          >
+            {poem.author}
+          </AnimatedText>
+        )}
+      </View>
+    ),
+    [poem.title, poem.author]
+  );
+
+  const estimatedItemSize = 30;
+
+  // const renderLine = (line: string, index: number) => {
+  //   if (!line.trim()) {
+  //     return <View key={`empty-${index}`} className="h-5" />;
+  //   }
+
+  //   const indentation = line.match(/^\s*/)?.[0].length || 0;
+  //   const trimmedLine = line.trim();
+
+  //   return (
+  //     <AnimatedView
+  //       key={`line-${index}`}
+  //       // entering={FadeIn.delay(index * 50).springify()}
+  //       className="w-full"
+  //       // style={{ marginLeft: indentation * 8 }}
+  //     >
+  //       <Text className="text-lg text-gray-800 mb-2" selectable={true}>
+  //         {trimmedLine || "\u200B"}
+  //       </Text>
+  //     </AnimatedView>
+  //   );
+  // };
 
   return (
     <View className="flex-1 bg-white">
@@ -87,29 +152,15 @@ const PoetryDisplay: React.FC<PoetryDisplayProps> = ({
         contentContainerStyle={{ padding: 24 }}
       >
         <AnimatedView className="flex-1" style={animatedStyle}>
-          {poem.title && (
-            <AnimatedText
-              className="text-2xl font-bold text-gray-900 mb-3 text-center"
-              //   entering={SlideInLeft.springify()}
-              //   exiting={FadeOutLeft.springify()}
-            >
-              {poem.title}
-            </AnimatedText>
-          )}
-
-          {poem.author && (
-            <AnimatedText
-              className="text-lg text-gray-600 mb-6 text-center italic"
-              //   entering={SlideInLeft.delay(100).springify()}
-              //   exiting={FadeOutLeft.springify()}
-            >
-              {poem.author}
-            </AnimatedText>
-          )}
-
-          <View className="flex-1">
-            {poem.lines.map((line, index) => renderLine(line, index))}
-          </View>
+          <FlashList
+            data={data}
+            renderItem={renderItem}
+            estimatedItemSize={estimatedItemSize}
+            keyExtractor={keyExtractor}
+            ListHeaderComponent={ListHeaderComponent}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 24 }}
+          />
         </AnimatedView>
       </ScrollView>
     </View>
@@ -117,4 +168,3 @@ const PoetryDisplay: React.FC<PoetryDisplayProps> = ({
 };
 
 export default PoetryDisplay;
-
