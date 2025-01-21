@@ -22,6 +22,7 @@ const Bookmark = () => {
     );
   }
 
+  // console.log(bookmarks, "bookmarks");
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="p-6">

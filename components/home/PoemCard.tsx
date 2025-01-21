@@ -23,7 +23,7 @@ export function PoemCard({ poem }: PoemCardProps) {
   };
 
   return (
-    <View className="bg-[#FFF9FB] rounded-xl p-4 mb-4">
+    <View className="bg-[#FFF9FB] rounded-xl px-6 py-5 mb-4">
       <View className="flex-row justify-between items-start mb-2">
         <Text className="text-xl font-semibold text-gray-900 flex-1 mr-4">
           {poem.title}
@@ -40,13 +40,21 @@ export function PoemCard({ poem }: PoemCardProps) {
       <Text className="text-[#8F0C3B] mb-3 underline">{poem.author}</Text>
 
       <View className="mb-3">
-        <Text numberOfLines={2} className="text-gray-700">
-          {poem.lines.slice(0, 2).join("\n")}
+        <Text numberOfLines={4} className="text-gray-700 leading-6">
+          {poem.lines.slice(0, 4).join("\n\n")}
         </Text>
       </View>
 
       <Pressable
-        onPress={() => router.push(`/poem/${encodeURIComponent(poem.title)}`)}
+        onPress={() =>
+          router.push({
+            pathname: "/poem/[id]",
+            params: {
+              id: encodeURIComponent(poem.title),
+              poemData: JSON.stringify(poem),
+            },
+          })
+        }
         className="flex-row items-center self-end"
       >
         <Text className="text-pink-500 font-medium mr-1">Read more</Text>

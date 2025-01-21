@@ -8,29 +8,36 @@ import PoetryDisplay from "@/components/PoetryDisplay";
 import PoetrySelector from "@/components/PoetrySelector";
 
 export default function Poem() {
-  const { id } = useLocalSearchParams();
+  const { id, poemData } = useLocalSearchParams();
   const router = useRouter();
   const { poems, loading, error, searchPoems } = usePoems();
   const { isBookmarked, addBookmark, removeBookmark } = useBookmarks();
   const [isSelectingLines, setIsSelectingLines] = useState(false);
+  const [poem, setPoem] = useState(
+    poemData ? JSON.parse(poemData as string) : null
+  );
 
   useEffect(() => {
-    if (id) {
+    if (!poemData && id) {
       searchPoems("title", decodeURIComponent(id as string));
     }
-  }, [id]);
+  }, [id, poemData]);
 
-  const poem = poems[0];
+  useEffect(() => {
+    if (!poemData && poems.length > 0) {
+      setPoem(poems[0]);
+    }
+  }, [poems, poemData]);
 
   if (loading) {
     return (
-      <SafeAreaView>
-        <View className="flex-1 bg-white p-6">
-          <View className="h-8 bg-gray-200 rounded-md w-3/4 mb-4" />
-          <View className="h-6 bg-gray-200 rounded-md w-1/2 mb-6" />
-          <View className="h-4 bg-gray-200 rounded-md w-full mb-3" />
-          <View className="h-4 bg-gray-200 rounded-md w-5/6 mb-3" />
-          <View className="h-4 bg-gray-200 rounded-md w-4/5 mb-3" />
+      <SafeAreaView className="flex-1 bg-white">
+        <View className="flex-1 p-6">
+          <View className="h-8 bg-gray-100 rounded-md w-3/4 mb-4" />
+          <View className="h-6 bg-gray-100 rounded-md w-1/2 mb-6" />
+          <View className="h-4 bg-gray-100 rounded-md w-full mb-3" />
+          <View className="h-4 bg-gray-100 rounded-md w-5/6 mb-3" />
+          <View className="h-4 bg-gray-100 rounded-md w-4/5 mb-3" />
         </View>
       </SafeAreaView>
     );
