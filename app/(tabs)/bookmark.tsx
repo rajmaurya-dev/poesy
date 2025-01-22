@@ -5,7 +5,7 @@ import { useBookmarks } from "@/hooks/useBookmark";
 
 const Bookmark = () => {
   const { bookmarks, loading, error, removeBookmark } = useBookmarks();
-
+console.log(bookmarks.length, "bookmarks hell");
   if (loading) {
     return (
       <SafeAreaView className="flex-1 bg-white justify-center items-center">
